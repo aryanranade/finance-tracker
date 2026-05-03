@@ -1,0 +1,208 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   BASE
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #0b0b1e;
+  color: #f1f5f9;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #13132b; }
+::-webkit-scrollbar-thumb { background: #2d2d5e; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+
+/* ============================================
+   GLASSMORPHISM CARDS
+   ============================================ */
+@layer components {
+  .glass-card {
+    @apply bg-surface-800 border border-border rounded-2xl;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:border-primary-500/40 hover:shadow-glow;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+           bg-gradient-to-r from-primary-600 to-primary-500 text-white font-semibold
+           transition-all duration-200 hover:from-primary-500 hover:to-primary-400
+           hover:shadow-glow active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+           bg-surface-700 border border-border text-slate-300 font-medium
+           transition-all duration-200 hover:bg-surface-600 hover:border-primary-500/50
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Danger button */
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl
+           bg-red-600/20 border border-red-500/30 text-red-400 font-medium
+           transition-all duration-200 hover:bg-red-600/30 hover:border-red-500
+           active:scale-95;
+  }
+
+  /* Form input */
+  .form-input {
+    @apply w-full px-4 py-2.5 rounded-xl bg-surface-700 border border-border
+           text-white placeholder-slate-500 text-sm
+           focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500
+           transition-all duration-200;
+  }
+
+  /* Form label */
+  .form-label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5;
+  }
+
+  /* Stat pill badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-income {
+    @apply badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
+  }
+
+  .badge-expense {
+    @apply badge bg-red-500/15 text-red-400 border border-red-500/25;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    @apply h-2 rounded-full bg-surface-600 overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-700 ease-out;
+  }
+}
+
+/* ============================================
+   SIDEBAR ACTIVE STATE
+   ============================================ */
+.nav-item {
+  @apply flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 font-medium
+         transition-all duration-200 cursor-pointer;
+}
+
+.nav-item:hover {
+  @apply bg-surface-700 text-white;
+}
+
+.nav-item.active {
+  @apply bg-primary-600/20 text-primary-400 border border-primary-500/30;
+}
+
+/* ============================================
+   CHART TOOLTIP
+   ============================================ */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #1a1a3e !important;
+  border: 1px solid #2d2d5e !important;
+  border-radius: 12px !important;
+  color: #f1f5f9 !important;
+}
+
+/* ============================================
+   MODAL OVERLAY
+   ============================================ */
+.modal-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* ============================================
+   LOADING SKELETON
+   ============================================ */
+.skeleton {
+  @apply animate-pulse bg-surface-700 rounded-xl;
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+.data-table {
+  @apply w-full text-sm;
+}
+
+.data-table thead {
+  @apply text-xs uppercase tracking-wider text-slate-500 border-b border-border;
+}
+
+.data-table th {
+  @apply py-3 px-4 text-left font-semibold;
+}
+
+.data-table td {
+  @apply py-3.5 px-4 border-b border-border/50;
+}
+
+.data-table tbody tr {
+  @apply transition-colors duration-150 hover:bg-surface-700/50;
+}
+
+/* ============================================
+   HEALTH SCORE RING
+   ============================================ */
+.score-ring {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #1a1a3e 25%, #222250 50%, #1a1a3e 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
