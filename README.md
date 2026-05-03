@@ -17,6 +17,12 @@
     <img src="https://img.shields.io/badge/Groq-LLaMA_3.3_70B-f55036?style=for-the-badge&logo=groq&logoColor=white" alt="Groq" />
     <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
   </div>
+
+  <br />
+  
+  <a href="https://finance-tracker-one-alpha.vercel.app" target="_blank">
+    <img src="https://img.shields.io/badge/🔴_Live_Demo-View_Application-FF0000?style=for-the-badge" alt="Live Demo" />
+  </a>
 </div>
 
 <br />
