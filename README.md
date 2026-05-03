@@ -159,6 +159,3 @@ npm run seed
 - **Input Validation**: Express-validator sanitizes all incoming request bodies.
 
 ---
-<div align="center">
-  <i>Built with ❤️ for modern personal finance.</i>
-</div>
