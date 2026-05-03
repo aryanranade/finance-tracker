@@ -1,7 +1,7 @@
 <div align="left">
   <div style="background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899); padding: 2px; border-radius: 20px; display: inline-block; margin-bottom: 20px;">
     <div style="background: #0f172a; padding: 20px 40px; border-radius: 18px;">
-      <h1 style="margin: 0; color: white;">🚀 FinanceAI</h1>
+      <h1 style="margin: 0; color: white;">🚀 AI Finance Tracker</h1>
       <p style="margin: 5px 0 0 0; color: #94a3b8; font-size: 1.1em;">AI-Powered Personal Finance Tracker</p>
     </div>
   </div>
