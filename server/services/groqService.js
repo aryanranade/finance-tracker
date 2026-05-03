@@ -33,7 +33,7 @@ async function categorizeDescription(description) {
 
   try {
     const completion = await client.chat.completions.create({
-      model: 'llama-3.1-70b-versatile',
+      model: 'llama-3.3-70b-versatile',
       messages: [
         {
           role: 'system',
@@ -80,7 +80,7 @@ async function getFinancialInsights({ transactions, income, expenses, budgets, h
   };
 
   const completion = await client.chat.completions.create({
-    model: 'llama-3.1-70b-versatile',
+    model: 'llama-3.3-70b-versatile',
     messages: [
       {
         role: 'system',
