@@ -1,237 +1,159 @@
-# FinanceAI — AI-Powered Personal Finance Tracker
+<div align="center">
+  <div style="background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899); padding: 2px; border-radius: 20px; display: inline-block; margin-bottom: 20px;">
+    <div style="background: #0f172a; padding: 20px 40px; border-radius: 18px;">
+      <h1 style="margin: 0; color: white;">🚀 FinanceAI</h1>
+      <p style="margin: 5px 0 0 0; color: #94a3b8; font-size: 1.1em;">AI-Powered Personal Finance Tracker</p>
+    </div>
+  </div>
 
-A full-stack personal finance tracker with AI-powered insights, budget management, and financial health scoring. Built with React, Node.js, MongoDB Atlas, and Groq AI — all free.
+  <p>
+    <b>Take control of your financial future with intelligent insights, smart budgeting, and beautiful analytics.</b>
+  </p>
+
+  <div>
+    <img src="https://img.shields.io/badge/React-18.0-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+    <img src="https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
+    <img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+    <img src="https://img.shields.io/badge/Groq-LLaMA_3.3_70B-f55036?style=for-the-badge&logo=groq&logoColor=white" alt="Groq" />
+    <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  </div>
+</div>
+
+<br />
+
+## ✨ Key Features
+
+- 🤖 **AI-Powered Insights**: Get personalized financial advice, warnings, and predictions powered by Groq's blazing-fast LLaMA 3.3 70B model.
+- ⚡ **Smart Auto-Categorization**: Type "bought a latte" and the AI instantly categorizes it as `Food & Dining`.
+- 📊 **Beautiful Visualizations**: Interactive pie charts, monthly bar charts, and SVG gauges built with Recharts.
+- 🎯 **Budget Management**: Set monthly limits per category and track your actual spending in real-time with visual progress bars.
+- 💯 **Financial Health Score**: A proprietary 0-100 score calculated based on your savings ratio, budget adherence, and spending consistency.
+- 🌙 **Modern Glassmorphism UI**: A sleek, dark-mode default interface that feels premium and responsive.
+- 🔒 **Secure Authentication**: JWT-based authentication with bcrypt password hashing.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Tech |
-|---|---|
-| Frontend | React 18 + Vite + Tailwind CSS v3 + Recharts |
-| Backend | Node.js + Express + Mongoose |
-| Database | MongoDB Atlas (free M0 tier) |
-| AI | Groq API (LLaMA 3.3 70B — free) |
-| Deploy | Vercel (frontend) + Render (backend) |
+### Frontend (Client)
+- **Framework**: React 18 + Vite
+- **Styling**: Tailwind CSS v3 (Custom Dark Theme + Glassmorphism)
+- **Charts**: Recharts
+- **Icons**: Lucide React
+- **HTTP Client**: Axios
+
+### Backend (Server)
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB (Mongoose Object Modeling)
+- **Security**: Helmet, express-validator, JWT
+- **AI Integration**: Groq SDK (`llama-3.3-70b-versatile`)
 
 ---
 
-## ⚡ Quick Start (Local Development)
+## 🚀 Live Demo & Deployment
 
-### Prerequisites
-- Node.js 18+
-- npm
+This application is built to be deployed 100% for free using modern cloud providers:
 
-### 1. Clone and navigate
-```bash
-cd "finance tracker"
-```
+- **Frontend Hosting**: [Vercel](https://vercel.com)
+- **Backend API Hosting**: [Render](https://render.com)
+- **Database**: [MongoDB Atlas (M0 Tier)](https://mongodb.com/atlas)
+- **AI Engine**: [Groq Cloud](https://console.groq.com)
 
-### 2. Set up MongoDB Atlas (free)
-1. Sign up at [mongodb.com/atlas](https://mongodb.com/atlas)
-2. Create a free **M0** cluster
-3. Create a database user and get the connection string
-4. Whitelist `0.0.0.0/0` in Network Access (for development)
+---
 
-### 3. Get a free Groq API key
-1. Sign up at [console.groq.com](https://console.groq.com) (no credit card needed)
-2. Generate an API key
+## 💻 Local Development
 
-### 4. Configure the backend
+Want to run it locally? Follow these steps:
+
+### 1. Prerequisites
+- Node.js (v18 or newer)
+- A free [MongoDB Atlas](https://mongodb.com) database URI
+- A free [Groq API Key](https://console.groq.com)
+
+### 2. Setup the Backend
 ```bash
 cd server
-cp .env.example .env
-# Edit .env with your MongoDB URI, JWT secret, and Groq API key
 npm install
-```
 
-Your `server/.env` should look like:
+# Create your environment variables
+cp .env.example .env
+```
+Edit the `server/.env` file:
 ```env
 PORT=5000
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/financetracker?retryWrites=true&w=majority
-JWT_SECRET=pick_a_long_random_string_here
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=super_secret_string
 JWT_EXPIRES_IN=7d
-CLIENT_URL=http://localhost:5173
-GROQ_API_KEY=gsk_your_key_here
+CLIENT_URL=http://localhost:5173,http://127.0.0.1:5173
+GROQ_API_KEY=gsk_your_groq_api_key
 ```
 
-### 5. (Optional) Seed with sample data
-```bash
-cd server
-npm run seed
-# Creates: demo@financetracker.app / demo1234
-# with 3 months of realistic transactions and budgets
-```
-
-### 6. Start the backend
-```bash
-cd server
-npm run dev
-# Runs on http://localhost:5000
-```
-
-### 7. Configure and start the frontend
+### 3. Setup the Frontend
 ```bash
 cd client
 npm install
+```
+
+### 4. Run the Application
+Open two terminal windows:
+
+**Terminal 1 (Backend):**
+```bash
+cd server
 npm run dev
-# Runs on http://localhost:5173
+# Server starts on http://localhost:5000
 ```
 
-Open [http://localhost:5173](http://localhost:5173) and log in with `demo@financetracker.app` / `demo1234` (if you seeded) or register a new account.
-
----
-
-## 🚀 Deployment
-
-### Backend → Render (free)
-
-1. Push your repo to GitHub
-2. Go to [render.com](https://render.com) → New Web Service
-3. Connect your GitHub repo, set **Root Directory** to `server`
-4. Set build command: `npm install`
-5. Set start command: `node index.js`
-6. Add all environment variables from `server/.env`
-7. Set `CLIENT_URL` to your Vercel frontend URL
-
-> **Note:** Render free tier sleeps after 15 min of inactivity. The first request after sleep takes ~30 seconds.
-
-### Frontend → Vercel (free)
-
-1. Go to [vercel.com](https://vercel.com) → New Project
-2. Import your GitHub repo, set **Root Directory** to `client`
-3. Add environment variable:
-   - `VITE_API_URL` = your Render backend URL (e.g., `https://your-app.onrender.com`)
-4. Deploy!
-
----
-
-## 📁 Project Structure
-
+**Terminal 2 (Frontend):**
+```bash
+cd client
+npm run dev
+# App starts on http://localhost:5173
 ```
-finance tracker/
-├── client/                     # React + Vite frontend
-│   ├── src/
-│   │   ├── components/         # Reusable UI components
-│   │   │   ├── Sidebar.jsx
-│   │   │   ├── StatCard.jsx
-│   │   │   ├── MonthlyBarChart.jsx
-│   │   │   ├── CategoryPieChart.jsx
-│   │   │   ├── TransactionTable.jsx
-│   │   │   ├── TransactionModal.jsx
-│   │   │   ├── BudgetCard.jsx
-│   │   │   ├── InsightCard.jsx
-│   │   │   ├── HealthScoreGauge.jsx
-│   │   │   └── LoadingSpinner.jsx
-│   │   ├── pages/              # Route-level pages
-│   │   │   ├── LoginPage.jsx
-│   │   │   ├── RegisterPage.jsx
-│   │   │   ├── DashboardPage.jsx
-│   │   │   ├── TransactionsPage.jsx
-│   │   │   ├── BudgetsPage.jsx
-│   │   │   └── InsightsPage.jsx
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx # JWT auth state
-│   │   ├── services/
-│   │   │   └── api.js          # Axios instance
-│   │   └── utils/
-│   │       └── helpers.js      # Formatters, constants
-│   ├── tailwind.config.js
-│   └── vite.config.js
-│
-└── server/
-    ├── controllers/            # Business logic
-    │   ├── authController.js
-    │   ├── transactionController.js
-    │   ├── budgetController.js
-    │   └── aiController.js
-    ├── models/                 # Mongoose schemas
-    │   ├── User.js
-    │   ├── Transaction.js
-    │   └── Budget.js
-    ├── routes/                 # Express routers
-    │   ├── auth.js
-    │   ├── transactions.js
-    │   ├── budgets.js
-    │   └── ai.js
-    ├── middleware/
-    │   └── auth.js             # JWT middleware
-    ├── services/
-    │   └── groqService.js      # Groq AI integration
-    ├── seed.js                 # Sample data seeder
-    └── index.js                # Entry point
+
+*(Optional)* Seed your database with demo data:
+```bash
+cd server
+npm run seed
 ```
 
 ---
 
 ## 🔌 API Reference
 
-### Auth
-| Method | Endpoint | Body | Description |
-|---|---|---|---|
-| POST | `/api/auth/register` | `{name, email, password}` | Register |
-| POST | `/api/auth/login` | `{email, password}` | Login → JWT |
-| GET | `/api/auth/me` | — | Get current user |
+### Authentication
+- `POST /api/auth/register` - Create a new account
+- `POST /api/auth/login` - Authenticate and receive JWT
+- `GET /api/auth/me` - Get current user profile
 
 ### Transactions
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/transactions` | List (filterable) |
-| POST | `/api/transactions` | Create |
-| PUT | `/api/transactions/:id` | Update |
-| DELETE | `/api/transactions/:id` | Delete |
-| GET | `/api/transactions/export/csv` | CSV download |
+- `GET /api/transactions` - Fetch all transactions (supports filtering & sorting)
+- `POST /api/transactions` - Create a new transaction
+- `PUT /api/transactions/:id` - Update a transaction
+- `DELETE /api/transactions/:id` - Delete a transaction
+- `GET /api/transactions/export/csv` - Download all data as CSV
 
 ### Budgets
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/budgets?month=YYYY-MM` | List with actual spending |
-| POST | `/api/budgets` | Create/update |
-| DELETE | `/api/budgets/:id` | Delete |
+- `GET /api/budgets` - Fetch budgets with real-time actual spending calculated
+- `POST /api/budgets` - Create or update a category budget
+- `DELETE /api/budgets/:id` - Remove a budget
 
-### AI
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/ai/insights` | Generate AI insights |
-| GET | `/api/ai/categorize?description=...` | Auto-categorize |
-| GET | `/api/ai/health-score` | Get health score |
+### AI Capabilities
+- `GET /api/ai/categorize?description=...` - Ask LLaMA to categorize a raw text string
+- `POST /api/ai/insights` - Generate a comprehensive financial report
+- `GET /api/ai/health-score` - Calculate the 0-100 proprietary health score
 
 ---
 
-## 🧠 Financial Health Score
-
-Calculated server-side from 3 components:
-
-| Component | Max Points | How |
-|---|---|---|
-| Savings Ratio | 40 | `(income - expenses) / income × 40` |
-| Budget Adherence | 30 | `categories_within_budget / total × 30` |
-| Spending Consistency | 30 | Low stddev in last 3 months = higher score |
+## 🛡️ Security Measures
+- **Password Hashing**: Bcrypt with salt rounds (cost factor 12).
+- **Stateless Auth**: JSON Web Tokens (JWT) for secure session management.
+- **Data Isolation**: All database queries are strictly scoped to the authenticated `userId`.
+- **HTTP Headers**: Helmet.js prevents cross-site scripting (XSS) and clickjacking.
+- **Input Validation**: Express-validator sanitizes all incoming request bodies.
 
 ---
-
-## 💡 Features
-
-- ✅ Email/password auth with JWT
-- ✅ Dashboard with 4 stat cards, bar chart, pie chart
-- ✅ Full transaction CRUD with sortable table
-- ✅ AI auto-categorization on transaction create
-- ✅ Multi-filter: date range, category, type, amount, search
-- ✅ Budget management with real-time actual vs limit tracking
-- ✅ AI Insights panel (Groq LLaMA 3.3 70B)
-- ✅ Financial Health Score (0–100) with SVG gauge
-- ✅ CSV export of all transactions
-- ✅ Recurring transaction detection
-- ✅ Mobile-responsive sidebar
-- ✅ Dark mode UI (default)
-
----
-
-## 🔐 Security
-
-- Passwords hashed with bcrypt (cost factor 12)
-- JWT tokens with configurable expiry
-- Helmet for HTTP security headers
-- express-validator on all input routes
-- All transaction/budget routes user-scoped (no cross-user access)
-- API keys in environment variables only
+<div align="center">
+  <i>Built with ❤️ for modern personal finance.</i>
+</div>
