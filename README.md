@@ -11,7 +11,7 @@ A full-stack personal finance tracker with AI-powered insights, budget managemen
 | Frontend | React 18 + Vite + Tailwind CSS v3 + Recharts |
 | Backend | Node.js + Express + Mongoose |
 | Database | MongoDB Atlas (free M0 tier) |
-| AI | Groq API (LLaMA 3.1 70B — free) |
+| AI | Groq API (LLaMA 3.3 70B — free) |
 | Deploy | Vercel (frontend) + Render (backend) |
 
 ---
@@ -218,7 +218,7 @@ Calculated server-side from 3 components:
 - ✅ AI auto-categorization on transaction create
 - ✅ Multi-filter: date range, category, type, amount, search
 - ✅ Budget management with real-time actual vs limit tracking
-- ✅ AI Insights panel (Groq LLaMA 3.1 70B)
+- ✅ AI Insights panel (Groq LLaMA 3.3 70B)
 - ✅ Financial Health Score (0–100) with SVG gauge
 - ✅ CSV export of all transactions
 - ✅ Recurring transaction detection

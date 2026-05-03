@@ -38,7 +38,7 @@ export default function InsightsPage() {
             <h1 className="text-2xl font-black text-white">AI Insights</h1>
           </div>
           <p className="text-slate-400 text-sm">
-            Get AI-powered analysis of your finances using Groq LLaMA 3.1
+            Get AI-powered analysis of your finances using Groq LLaMA 3.3
           </p>
         </div>
         <button
@@ -62,7 +62,7 @@ export default function InsightsPage() {
         >
           <Sparkles size={12} />
           {ai_powered
-            ? 'Powered by Groq — LLaMA 3.1 70B'
+            ? 'Powered by Groq — LLaMA 3.3 70B'
             : 'Static mode — Add GROQ_API_KEY for AI insights'}
           {lastUpdated && (
             <span className="text-slate-500 ml-2">
