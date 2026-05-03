@@ -19,10 +19,9 @@
   </div>
 
   <br />
+  <br />
   
-  <a href="https://finance-tracker-one-alpha.vercel.app" target="_blank">
-    <img src="https://img.shields.io/badge/🔴_Live_Demo-View_Application-FF0000?style=for-the-badge" alt="Live Demo" />
-  </a>
+  <a href="https://finance-tracker-one-alpha.vercel.app" target="_blank"><b><u><font color="#3b82f6">View Live Deployment</font></u></b></a>
 </div>
 
 <br />
