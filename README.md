@@ -69,24 +69,23 @@ This application is built to be deployed 100% for free using modern cloud provid
 
 ## 💻 Local Development
 
-Want to run it locally? Follow these steps:
+Running locally takes **two commands**. 🎉
 
 ### 1. Prerequisites
 - Node.js (v18 or newer)
 - A free [MongoDB Atlas](https://mongodb.com) database URI
 - A free [Groq API Key](https://console.groq.com)
 
-### 2. Setup the Backend
+### 2. One-time setup
+From the **project root**:
 ```bash
-cd server
-npm install
-
-# Create your environment variables
-cp .env.example .env
+npm run setup
 ```
-Edit the `server/.env` file:
+This installs every dependency (root, server, and client) and creates `server/.env` from the template.
+
+Then open `server/.env` and fill in your real values:
 ```env
-PORT=5000
+PORT=5001                 # 5000 is reserved by macOS AirPlay — leave this as 5001
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=super_secret_string
 JWT_EXPIRES_IN=7d
@@ -94,34 +93,23 @@ CLIENT_URL=http://localhost:5173,http://127.0.0.1:5173
 GROQ_API_KEY=gsk_your_groq_api_key
 ```
 
-### 3. Setup the Frontend
+### 3. Run everything
+From the **project root**:
 ```bash
-cd client
-npm install
-```
-
-### 4. Run the Application
-Open two terminal windows:
-
-**Terminal 1 (Backend):**
-```bash
-cd server
 npm run dev
-# Server starts on http://localhost:5000
 ```
+That's it — this starts **both** the backend and frontend together with a single command:
+- 🖥️  Frontend → http://localhost:5173
+- ⚙️  Backend  → http://localhost:5001 (the Vite dev server proxies `/api` to it automatically)
 
-**Terminal 2 (Frontend):**
-```bash
-cd client
-npm run dev
-# App starts on http://localhost:5173
-```
-
-*(Optional)* Seed your database with demo data:
-```bash
-cd server
-npm run seed
-```
+### Handy root scripts
+| Command | What it does |
+|---------|--------------|
+| `npm run dev` | Start backend + frontend together |
+| `npm run setup` | Install all deps + bootstrap `.env` |
+| `npm run seed` | Seed the database with demo data |
+| `npm run build` | Build the frontend for production |
+| `npm start` | Run the backend in production mode |
 
 ---
 
