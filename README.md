@@ -33,10 +33,12 @@
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="docs/screenshots/dashboard.png" alt="Dashboard — glass cards, animated charts, health score" width="90%" />
+  <img src="docs/screenshots/dashboard.png" alt="Dashboard — glass cards, animated charts, spending breakdown" width="90%" />
   <br /><br />
-  <img src="docs/screenshots/insights.png" alt="AI Insights — Groq-powered analysis" width="45%" />
-  <img src="docs/screenshots/budgets.png" alt="Budgets — animated progress tracking" width="45%" />
+  <img src="docs/screenshots/budgets.png" alt="Budgets — per-category limits with real-time progress" width="45%" />
+  <img src="docs/screenshots/transactions.png" alt="Transactions — searchable, filterable, sortable table" width="45%" />
+  <br /><br />
+  <img src="docs/screenshots/insights.png" alt="AI Insights — Groq-powered financial analysis" width="90%" />
 </div>
 
 ---
