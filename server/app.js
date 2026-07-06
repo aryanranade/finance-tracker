@@ -12,6 +12,10 @@ const aiRoutes = require('./routes/ai');
 
 const app = express();
 
+// Trust the single reverse proxy in front of the app (Render/Vercel/etc.) so
+// req.ip reflects the real client — required for correct per-IP rate limiting.
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet());
 
