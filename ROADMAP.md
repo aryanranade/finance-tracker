@@ -1,4 +1,4 @@
-# 🚀 FinanceAI — "Next Level" Roadmap
+# 🚀 Finance Tracker — "Next Level" Roadmap
 
 Goal: take the project from a solid personal build to a **mainstream, portfolio-grade, visually stunning** app.
 

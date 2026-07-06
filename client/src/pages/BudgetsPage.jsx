@@ -6,9 +6,10 @@ import BudgetCard from '../components/BudgetCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import CountUp from '../components/ui/CountUp'
 import EmptyState from '../components/ui/EmptyState'
+import Select from '../components/ui/Select'
 import { staggerContainer, fadeUp } from '../lib/motion'
 import api from '../services/api'
-import { CATEGORIES, formatMonth, getCurrentMonth, formatCurrency } from '../utils/helpers'
+import { CATEGORIES, CATEGORY_ICONS, CATEGORY_COLORS, formatMonth, getCurrentMonth, formatCurrency } from '../utils/helpers'
 
 export default function BudgetsPage() {
   const [budgets, setBudgets] = useState([])
@@ -166,14 +167,17 @@ export default function BudgetsPage() {
           <form onSubmit={handleAdd} className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
               <label className="form-label">Category</label>
-              <select
-                className="form-input"
+              <Select
                 value={form.category}
-                onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
-              >
-                <option value="">Select category...</option>
-                {availableCategories.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+                onChange={(v) => setForm(f => ({ ...f, category: v }))}
+                placeholder="Select category..."
+                options={availableCategories.map(c => ({
+                  value: c,
+                  label: c,
+                  icon: CATEGORY_ICONS[c],
+                  color: CATEGORY_COLORS[c],
+                }))}
+              />
             </div>
             <div className="sm:w-48">
               <label className="form-label">Monthly Limit ($)</label>

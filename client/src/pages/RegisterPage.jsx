@@ -65,7 +65,7 @@ export default function RegisterPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
               <TrendingUp size={20} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-white">FinanceAI</span>
+            <span className="text-xl font-bold text-white">Finance Tracker</span>
           </div>
 
           <motion.h2 variants={fadeUp} className="text-4xl font-black text-white mb-3 leading-tight">
@@ -99,7 +99,7 @@ export default function RegisterPage() {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
               <TrendingUp size={18} className="text-white" />
             </div>
-            <span className="text-lg font-bold text-white">FinanceAI</span>
+            <span className="text-lg font-bold text-white">Finance Tracker</span>
           </div>
 
           <h1 className="text-2xl font-black text-white mb-1">Create account</h1>

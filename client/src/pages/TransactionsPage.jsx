@@ -4,9 +4,10 @@ import { toast } from 'sonner'
 import { Plus, Search, Filter, Download, X } from 'lucide-react'
 import TransactionTable from '../components/TransactionTable'
 import TransactionModal from '../components/TransactionModal'
+import Select from '../components/ui/Select'
 import { staggerContainer, fadeUp } from '../lib/motion'
 import api from '../services/api'
-import { CATEGORIES, getCurrentMonth } from '../utils/helpers'
+import { CATEGORIES, CATEGORY_ICONS, getCurrentMonth } from '../utils/helpers'
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState([])
@@ -185,26 +186,28 @@ export default function TransactionsPage() {
             </div>
             <div>
               <label className="form-label">Category</label>
-              <select
-                className="form-input"
+              <Select
                 value={filters.category}
-                onChange={e => setFilters(f => ({ ...f, category: e.target.value }))}
-              >
-                <option value="">All categories</option>
-                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+                onChange={(v) => setFilters(f => ({ ...f, category: v }))}
+                placeholder="All categories"
+                options={[
+                  { value: '', label: 'All categories' },
+                  ...CATEGORIES.map(c => ({ value: c, label: c, icon: CATEGORY_ICONS[c] })),
+                ]}
+              />
             </div>
             <div>
               <label className="form-label">Type</label>
-              <select
-                className="form-input"
+              <Select
                 value={filters.type}
-                onChange={e => setFilters(f => ({ ...f, type: e.target.value }))}
-              >
-                <option value="">All types</option>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-              </select>
+                onChange={(v) => setFilters(f => ({ ...f, type: v }))}
+                placeholder="All types"
+                options={[
+                  { value: '', label: 'All types' },
+                  { value: 'income', label: 'Income', color: '#10b981' },
+                  { value: 'expense', label: 'Expense', color: '#ef4444' },
+                ]}
+              />
             </div>
             <div>
               <label className="form-label">Min Amount ($)</label>

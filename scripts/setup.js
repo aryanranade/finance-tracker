@@ -20,7 +20,7 @@ const c = {
   dim: '\x1b[2m',
 };
 
-console.log(`\n${c.cyan}🔧 FinanceAI setup${c.reset}\n`);
+console.log(`\n${c.cyan}🔧 Finance Tracker setup${c.reset}\n`);
 
 if (!fs.existsSync(envPath)) {
   if (fs.existsSync(examplePath)) {

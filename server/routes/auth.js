@@ -5,11 +5,20 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Lowercase + trim only — deliberately NOT normalizeEmail(), whose defaults
+// strip dots from Gmail addresses (a.b@gmail.com -> ab@gmail.com) and would
+// store/display a different email than the user typed.
+const sanitizeEmail = () =>
+  body('email')
+    .isEmail()
+    .withMessage('Valid email is required')
+    .customSanitizer((v) => String(v).trim().toLowerCase());
+
 router.post(
   '/register',
   [
     body('name').trim().notEmpty().withMessage('Name is required'),
-    body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
+    sanitizeEmail(),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
   ],
   register
@@ -18,7 +27,7 @@ router.post(
 router.post(
   '/login',
   [
-    body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
+    sanitizeEmail(),
     body('password').notEmpty().withMessage('Password is required'),
   ],
   login

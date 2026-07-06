@@ -1,4 +1,4 @@
-# Contributing to FinanceAI
+# Contributing to Finance Tracker
 
 Thanks for your interest! This project welcomes issues and pull requests.
 

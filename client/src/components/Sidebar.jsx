@@ -37,7 +37,7 @@ export default function Sidebar() {
             <TrendingUp size={18} className="text-white" />
           </motion.div>
           <div>
-            <h1 className="text-base font-bold text-white leading-none">FinanceAI</h1>
+            <h1 className="text-base font-bold text-white leading-none">Finance Tracker</h1>
             <p className="text-xs text-slate-500 mt-0.5">Smart Tracker</p>
           </div>
         </div>

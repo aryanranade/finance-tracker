@@ -52,7 +52,7 @@ export default function LoginPage() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
             <TrendingUp size={20} className="text-white" />
           </div>
-          <span className="text-xl font-bold text-white">FinanceAI</span>
+          <span className="text-xl font-bold text-white">Finance Tracker</span>
         </div>
 
         <motion.div variants={staggerContainer} initial="initial" animate="animate">
@@ -79,7 +79,7 @@ export default function LoginPage() {
           </motion.div>
         </motion.div>
 
-        <p className="text-slate-600 text-sm">© {new Date().getFullYear()} FinanceAI. All rights reserved.</p>
+        <p className="text-slate-600 text-sm">© {new Date().getFullYear()} Finance Tracker. All rights reserved.</p>
       </div>
 
       {/* Right login form */}
@@ -94,7 +94,7 @@ export default function LoginPage() {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
               <TrendingUp size={18} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-white">FinanceAI</span>
+            <span className="text-xl font-bold text-white">Finance Tracker</span>
           </div>
 
           <h1 className="text-3xl font-black text-white mb-2">Welcome back</h1>
