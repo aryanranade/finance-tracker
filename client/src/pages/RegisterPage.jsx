@@ -166,7 +166,7 @@ export default function RegisterPage() {
                       <div
                         key={i}
                         className="h-1 flex-1 rounded-full transition-all duration-300"
-                        style={{ backgroundColor: i <= strength ? strengthColor : '#2d2d5e' }}
+                        style={{ backgroundColor: i <= strength ? strengthColor : '#26262c' }}
                       />
                     ))}
                   </div>

@@ -59,7 +59,7 @@ export default function StatCard({ title, amount, icon: Icon, trend, trendLabel,
       </div>
 
       <p className="text-sm font-medium text-slate-400 mb-1">{title}</p>
-      <p className="text-2xl font-bold text-white tabular-nums">
+      <p className="text-2xl font-bold text-white tabular-nums font-display tracking-tight">
         <CountUp value={amount || 0} format={formatCurrency} />
       </p>
       {trendLabel && (

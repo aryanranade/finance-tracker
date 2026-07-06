@@ -35,7 +35,7 @@ export default function HealthScoreGauge({ score = 0, loading }) {
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="#2d2d5e"
+            stroke="rgba(255,255,255,0.08)"
             strokeWidth={strokeWidth}
           />
           {/* Score ring */}
@@ -58,7 +58,7 @@ export default function HealthScoreGauge({ score = 0, loading }) {
 
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-4xl font-black text-white leading-none tabular-nums">
+          <span className="text-4xl font-black text-white leading-none tabular-nums font-display">
             <CountUp value={clampedScore} duration={1.3} />
           </span>
           <span className="text-xs text-slate-500 mt-1">out of 100</span>

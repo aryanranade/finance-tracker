@@ -36,7 +36,7 @@ export default function MonthlyBarChart({ data, loading }) {
       <p className="text-xs text-slate-500 mb-6">Income vs expenses over the last 6 months</p>
       <ResponsiveContainer width="100%" height={240}>
         <BarChart data={data} barSize={18} barGap={4}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#2d2d5e" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
           <XAxis
             dataKey="month"
             tick={{ fill: '#64748b', fontSize: 12 }}

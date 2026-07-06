@@ -64,7 +64,7 @@ export default function CategoryPieChart({ data, loading }) {
             {/* Center total */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span className="text-[10px] uppercase tracking-wider text-slate-500">Total</span>
-              <span className="text-lg font-bold text-white tabular-nums">{formatCurrency(total)}</span>
+              <span className="text-lg font-bold text-white tabular-nums font-display">{formatCurrency(total)}</span>
             </div>
           </div>
 

@@ -23,18 +23,18 @@ export default {
           400: '#22d3ee',
           500: '#06b6d4',
         },
-        // App surface colors
+        // App surface colors — true black scale
         surface: {
-          900: '#0b0b1e',
-          800: '#13132b',
-          700: '#1a1a3e',
-          600: '#222250',
-          500: '#2d2d6b',
+          900: '#060607',
+          800: '#0b0b0d',
+          700: '#131316',
+          600: '#1b1b1f',
+          500: '#232329',
         },
-        // Borders
+        // Borders — neutral, hairline
         border: {
-          DEFAULT: '#2d2d5e',
-          light: '#3d3d7e',
+          DEFAULT: '#232329',
+          light: '#34343c',
         },
         // Status
         success: '#10b981',
@@ -44,6 +44,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: '1rem',
@@ -51,14 +52,14 @@ export default {
         '3xl': '2rem',
       },
       boxShadow: {
-        card: '0 4px 24px rgba(0,0,0,0.4)',
-        'card-lg': '0 8px 40px rgba(0,0,0,0.5)',
-        glow: '0 0 20px rgba(124,58,237,0.35)',
-        'glow-lg': '0 0 40px rgba(124,58,237,0.45)',
+        card: '0 4px 24px rgba(0,0,0,0.55)',
+        'card-lg': '0 12px 48px rgba(0,0,0,0.65)',
+        glow: '0 0 24px rgba(139,110,255,0.30)',
+        'glow-lg': '0 0 48px rgba(139,110,255,0.40)',
         'glow-green': '0 0 20px rgba(16,185,129,0.25)',
         'glow-red': '0 0 20px rgba(239,68,68,0.25)',
         'glow-cyan': '0 0 20px rgba(6,182,212,0.25)',
-        'inner-highlight': 'inset 0 1px 0 0 rgba(255,255,255,0.06)',
+        'inner-highlight': 'inset 0 1px 0 0 rgba(255,255,255,0.08)',
       },
       animation: {
         'fade-in': 'fadeIn 0.4s ease-out',

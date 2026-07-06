@@ -54,10 +54,10 @@ export default function App() {
             richColors
             toastOptions={{
               style: {
-                background: 'rgba(26, 26, 62, 0.95)',
-                border: '1px solid #3d3d7e',
+                background: 'rgba(15, 15, 18, 0.95)',
+                border: '1px solid rgba(255, 255, 255, 0.10)',
                 backdropFilter: 'blur(12px)',
-                color: '#f1f5f9',
+                color: '#ededf0',
               },
             }}
           />

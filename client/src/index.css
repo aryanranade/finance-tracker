@@ -16,10 +16,16 @@ html {
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #0b0b1e;
-  color: #f1f5f9;
+  background-color: #060607;
+  color: #ededf0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Elegant display type for headings & big numbers */
+h1, h2, h3 {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 /* Accessible focus ring everywhere */
@@ -46,37 +52,34 @@ body {
   overflow: hidden;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124, 58, 237, 0.13), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(6, 182, 212, 0.07), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 50% 110%, rgba(168, 85, 247, 0.08), transparent 60%),
-    #0b0b1e;
+    radial-gradient(ellipse 90% 55% at 25% -15%, rgba(124, 58, 237, 0.10), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 95% 5%, rgba(217, 70, 239, 0.05), transparent 55%),
+    radial-gradient(ellipse 80% 55% at 55% 115%, rgba(139, 110, 255, 0.06), transparent 55%),
+    #060607;
 }
 
-.aurora-bg::before,
+/* Fine grain so the black doesn't band on large monitors */
+.aurora-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
 .aurora-bg::after {
   content: '';
   position: absolute;
   border-radius: 9999px;
-  filter: blur(90px);
+  filter: blur(110px);
   will-change: transform;
-}
-
-.aurora-bg::before {
-  width: 480px;
-  height: 480px;
-  top: -160px;
-  left: -100px;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.16), transparent 70%);
-  animation: aurora 16s ease-in-out infinite alternate;
-}
-
-.aurora-bg::after {
-  width: 420px;
-  height: 420px;
-  bottom: -140px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.10), transparent 70%);
-  animation: aurora 20s ease-in-out infinite alternate-reverse;
+  width: 520px;
+  height: 520px;
+  top: -180px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.13), transparent 70%);
+  animation: aurora 18s ease-in-out infinite alternate;
 }
 
 /* ============================================
@@ -84,7 +87,7 @@ body {
    ============================================ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #2d2d5e; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: #26262c; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
 
 /* ============================================
@@ -93,24 +96,25 @@ body {
 @layer components {
   .glass-card {
     @apply rounded-2xl;
-    background: linear-gradient(180deg, rgba(26, 26, 62, 0.55), rgba(19, 19, 43, 0.65));
-    border: 1px solid rgba(61, 61, 126, 0.35);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
-      0 4px 24px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.07),
+      0 8px 32px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
   }
 
   .glass-card-hover {
     @apply glass-card transition-all duration-300;
   }
   .glass-card-hover:hover {
-    border-color: rgba(139, 110, 255, 0.45);
+    border-color: rgba(139, 110, 255, 0.40);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
     box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.07),
-      0 8px 32px rgba(0, 0, 0, 0.45),
-      0 0 24px rgba(124, 58, 237, 0.18);
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.10),
+      0 12px 40px rgba(0, 0, 0, 0.55),
+      0 0 28px rgba(124, 58, 237, 0.14);
     transform: translateY(-2px);
   }
 
@@ -222,21 +226,22 @@ body {
 }
 
 .nav-item.active {
-  @apply bg-primary-600/20 text-primary-300;
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04), 0 0 16px rgba(124, 58, 237, 0.15);
+  @apply text-primary-300;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.16), rgba(124, 58, 237, 0.08));
+  border: 1px solid rgba(139, 110, 255, 0.28);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 0 18px rgba(124, 58, 237, 0.12);
 }
 
 /* ============================================
    CHART TOOLTIP
    ============================================ */
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: rgba(26, 26, 62, 0.95) !important;
-  border: 1px solid #3d3d7e !important;
+  background: rgba(15, 15, 18, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
   border-radius: 12px !important;
-  color: #f1f5f9 !important;
+  color: #ededf0 !important;
   backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55) !important;
 }
 
 /* ============================================
@@ -255,13 +260,13 @@ body {
    ============================================ */
 .skeleton {
   @apply rounded-xl relative overflow-hidden;
-  background: #1a1a3e;
+  background: #131316;
 }
 .skeleton::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent 25%, rgba(139, 110, 255, 0.08) 50%, transparent 75%);
+  background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.06) 50%, transparent 75%);
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite;
 }
@@ -322,7 +327,7 @@ body {
 }
 
 .shimmer {
-  background: linear-gradient(90deg, #1a1a3e 25%, #222250 50%, #1a1a3e 75%);
+  background: linear-gradient(90deg, #131316 25%, #1b1b1f 50%, #131316 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
