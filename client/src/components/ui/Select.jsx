@@ -10,6 +10,7 @@ import { ChevronDown, Check } from 'lucide-react'
 export default function Select({ value, onChange, options, placeholder = 'Select...', error, id }) {
   const [open, setOpen] = useState(false)
   const [highlighted, setHighlighted] = useState(-1)
+  const [dropUp, setDropUp] = useState(false)
   const rootRef = useRef(null)
 
   const selected = options.find(o => o.value === value)
@@ -18,6 +19,17 @@ export default function Select({ value, onChange, options, placeholder = 'Select
     setOpen(false)
     setHighlighted(-1)
   }, [])
+
+  // Open, flipping upward when there isn't enough room below (e.g. bottom of a modal)
+  const MENU_MAX = 240 // max-h-56 + margin
+  const toggleOpen = () => {
+    if (!open && rootRef.current) {
+      const rect = rootRef.current.getBoundingClientRect()
+      const spaceBelow = window.innerHeight - rect.bottom
+      setDropUp(spaceBelow < MENU_MAX && rect.top > spaceBelow)
+    }
+    setOpen(o => !o)
+  }
 
   // Outside click
   useEffect(() => {
@@ -34,14 +46,14 @@ export default function Select({ value, onChange, options, placeholder = 'Select
     if (e.key === 'Escape') { close(); return }
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      if (!open) { setOpen(true); return }
+      if (!open) { toggleOpen(); return }
       setHighlighted(h => Math.min(h + 1, options.length - 1))
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setHighlighted(h => Math.max(h - 1, 0))
     } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      if (!open) { setOpen(true); return }
+      if (!open) { toggleOpen(); return }
       if (highlighted >= 0) {
         onChange(options[highlighted].value)
         close()
@@ -57,7 +69,7 @@ export default function Select({ value, onChange, options, placeholder = 'Select
         role="combobox"
         aria-expanded={open}
         aria-haspopup="listbox"
-        onClick={() => setOpen(o => !o)}
+        onClick={toggleOpen}
         onKeyDown={onKeyDown}
         className={`form-input flex items-center justify-between gap-2 text-left cursor-pointer select-none
           ${error ? 'form-input-error' : ''}
@@ -83,12 +95,13 @@ export default function Select({ value, onChange, options, placeholder = 'Select
         {open && (
           <motion.ul
             role="listbox"
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            initial={{ opacity: 0, y: dropUp ? 6 : -6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
+            exit={{ opacity: 0, y: dropUp ? 4 : -4, scale: 0.98 }}
             transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute z-50 mt-2 w-full max-h-56 overflow-y-auto rounded-xl p-1.5 origin-top
-                       border border-white/10 shadow-card-lg"
+            className={`absolute z-50 w-full max-h-56 overflow-y-auto rounded-xl p-1.5
+                        border border-white/10 shadow-card-lg
+                        ${dropUp ? 'bottom-full mb-2 origin-bottom' : 'top-full mt-2 origin-top'}`}
             style={{
               background: 'rgba(15, 15, 18, 0.97)',
               backdropFilter: 'blur(20px) saturate(150%)',

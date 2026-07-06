@@ -143,7 +143,7 @@ export default function TransactionModal({ isOpen, onClose, onSave, editTx }) {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="glass-card w-full max-w-md shadow-card-lg overflow-hidden"
+            className="glass-card w-full max-w-md shadow-card-lg"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header — gradient icon + title */}
