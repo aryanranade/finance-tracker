@@ -5,7 +5,7 @@ const { categorizeDescription } = require('../services/groqService');
 // GET /api/transactions
 const getTransactions = async (req, res) => {
   try {
-    const { startDate, endDate, category, type, minAmount, maxAmount, search, limit = 200 } = req.query;
+    const { startDate, endDate, category, type, minAmount, maxAmount, search, limit = 200, page = 1 } = req.query;
 
     const query = { userId: req.userId };
 
@@ -27,11 +27,23 @@ const getTransactions = async (req, res) => {
     }
     if (search) query.description = { $regex: search, $options: 'i' };
 
-    const transactions = await Transaction.find(query)
-      .sort({ date: -1 })
-      .limit(Number(limit));
+    const perPage = Math.min(Number(limit) || 200, 500);
+    const pageNum = Math.max(Number(page) || 1, 1);
 
-    res.json({ transactions });
+    const [transactions, total] = await Promise.all([
+      Transaction.find(query)
+        .sort({ date: -1 })
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage),
+      Transaction.countDocuments(query),
+    ]);
+
+    res.json({
+      transactions,
+      total,
+      page: pageNum,
+      hasMore: pageNum * perPage < total,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

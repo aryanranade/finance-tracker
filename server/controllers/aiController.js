@@ -151,4 +151,4 @@ const getHealthScore = async (req, res) => {
   }
 };
 
-module.exports = { getInsights, categorize, getHealthScore };
+module.exports = { getInsights, categorize, getHealthScore, calculateHealthScore };

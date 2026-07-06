@@ -4,7 +4,7 @@
   "private": true,
   "description": "AI-Powered Personal Finance Tracker — monorepo runner",
   "scripts": {
-    "dev": "concurrently -k -n server,client -c blue,magenta \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "dev": "concurrently -k -n server,client -c blue,magenta \"PORT=5001 npm --prefix server run dev\" \"npm --prefix client run dev\"",
     "start": "npm --prefix server start",
     "build": "npm --prefix client run build",
     "seed": "npm --prefix server run seed",
