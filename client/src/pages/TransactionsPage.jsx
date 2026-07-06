@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'sonner'
 import { Plus, Search, Filter, Download, X } from 'lucide-react'
 import TransactionTable from '../components/TransactionTable'
 import TransactionModal from '../components/TransactionModal'
+import { staggerContainer, fadeUp } from '../lib/motion'
 import api from '../services/api'
 import { CATEGORIES, getCurrentMonth } from '../utils/helpers'
 
@@ -62,8 +65,13 @@ export default function TransactionsPage() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this transaction?')) return
-    await api.delete(`/api/transactions/${id}`)
-    setTransactions(prev => prev.filter(t => t._id !== id))
+    try {
+      await api.delete(`/api/transactions/${id}`)
+      setTransactions(prev => prev.filter(t => t._id !== id))
+      toast.success('Transaction deleted')
+    } catch {
+      toast.error('Failed to delete transaction')
+    }
   }
 
   const handleExportCSV = async () => {
@@ -75,8 +83,10 @@ export default function TransactionsPage() {
       a.download = `transactions-${getCurrentMonth()}.csv`
       a.click()
       window.URL.revokeObjectURL(url)
+      toast.success('CSV downloaded')
     } catch (err) {
       console.error('CSV export failed', err)
+      toast.error('CSV export failed')
     }
   }
 
@@ -90,9 +100,14 @@ export default function TransactionsPage() {
   const openEdit = (tx) => { setEditTx(tx); setModalOpen(true) }
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <motion.div
+      className="space-y-6 max-w-7xl mx-auto"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-white">Transactions</h1>
           <p className="text-slate-400 text-sm mt-0.5">
@@ -110,10 +125,10 @@ export default function TransactionsPage() {
             Add
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Search + Filter bar */}
-      <div className="glass-card p-4 space-y-4">
+      <motion.div variants={fadeUp} className="glass-card p-4 space-y-4">
         <div className="flex gap-3">
           <div className="flex-1 relative">
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -142,8 +157,14 @@ export default function TransactionsPage() {
           )}
         </div>
 
+        <AnimatePresence>
         {showFilters && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-border">
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-border overflow-hidden">
             <div>
               <label className="form-label">Start Date</label>
               <input
@@ -207,17 +228,25 @@ export default function TransactionsPage() {
                 onChange={e => setFilters(f => ({ ...f, maxAmount: e.target.value }))}
               />
             </div>
-          </div>
+          </motion.div>
         )}
-      </div>
+        </AnimatePresence>
+      </motion.div>
 
       {/* Table */}
-      <TransactionTable
-        transactions={transactions}
-        onEdit={openEdit}
-        onDelete={handleDelete}
-        loading={loading}
-      />
+      <motion.div variants={fadeUp}>
+        <TransactionTable
+          transactions={transactions}
+          onEdit={openEdit}
+          onDelete={handleDelete}
+          loading={loading}
+          emptyAction={
+            <button onClick={openAdd} className="btn-primary">
+              <Plus size={16} /> Add a transaction
+            </button>
+          }
+        />
+      </motion.div>
 
       <TransactionModal
         isOpen={modalOpen}
@@ -225,6 +254,6 @@ export default function TransactionsPage() {
         onSave={handleSave}
         editTx={editTx}
       />
-    </div>
+    </motion.div>
   )
 }

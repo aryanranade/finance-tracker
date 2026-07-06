@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { Lightbulb, AlertTriangle, TrendingUp, Star } from 'lucide-react'
 
 const typeConfig = {
@@ -32,9 +33,11 @@ export default function InsightCard({ type = 'insight', text, index = 0 }) {
   const Icon = config.icon
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, x: -12 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.35, delay: index * 0.08, ease: 'easeOut' }}
       className={`flex items-start gap-4 p-4 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${config.bg}`}
-      style={{ animationDelay: `${index * 80}ms` }}
     >
       <div className={`p-2 rounded-lg bg-surface-800 flex-shrink-0 ${config.iconColor}`}>
         <Icon size={16} />
@@ -45,6 +48,6 @@ export default function InsightCard({ type = 'insight', text, index = 0 }) {
         </span>
         <p className="text-sm text-slate-300 leading-relaxed">{text}</p>
       </div>
-    </div>
+    </motion.div>
   )
 }

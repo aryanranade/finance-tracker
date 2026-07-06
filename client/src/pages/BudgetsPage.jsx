@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react'
-import { Plus, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'sonner'
+import { Plus, X, ChevronLeft, ChevronRight, Target } from 'lucide-react'
 import BudgetCard from '../components/BudgetCard'
 import LoadingSpinner from '../components/LoadingSpinner'
+import CountUp from '../components/ui/CountUp'
+import EmptyState from '../components/ui/EmptyState'
+import { staggerContainer, fadeUp } from '../lib/motion'
 import api from '../services/api'
-import { CATEGORIES, formatMonth, getCurrentMonth } from '../utils/helpers'
+import { CATEGORIES, formatMonth, getCurrentMonth, formatCurrency } from '../utils/helpers'
 
 export default function BudgetsPage() {
   const [budgets, setBudgets] = useState([])
@@ -54,6 +59,7 @@ export default function BudgetsPage() {
       })
       setForm({ category: '', monthlyLimit: '' })
       setShowForm(false)
+      toast.success(`Budget set for ${form.category}`)
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to save budget.')
     } finally {
@@ -63,8 +69,13 @@ export default function BudgetsPage() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this budget?')) return
-    await api.delete(`/api/budgets/${id}`)
-    setBudgets(prev => prev.filter(b => b._id !== id))
+    try {
+      await api.delete(`/api/budgets/${id}`)
+      setBudgets(prev => prev.filter(b => b._id !== id))
+      toast.success('Budget removed')
+    } catch {
+      toast.error('Failed to delete budget')
+    }
   }
 
   const existingCategories = budgets.map(b => b.category)
@@ -75,9 +86,14 @@ export default function BudgetsPage() {
   const overBudgetCount = budgets.filter(b => (b.spent || 0) > b.monthlyLimit).length
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <motion.div
+      className="space-y-6 max-w-7xl mx-auto"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-white">Budgets</h1>
           <p className="text-slate-400 text-sm mt-0.5">Set and track your monthly spending limits</p>
@@ -86,10 +102,10 @@ export default function BudgetsPage() {
           <Plus size={18} />
           Add Budget
         </button>
-      </div>
+      </motion.div>
 
       {/* Month navigator */}
-      <div className="glass-card p-4 flex items-center justify-between">
+      <motion.div variants={fadeUp} className="glass-card p-4 flex items-center justify-between">
         <button onClick={() => navigateMonth(-1)} className="btn-secondary px-3">
           <ChevronLeft size={16} />
         </button>
@@ -101,19 +117,21 @@ export default function BudgetsPage() {
         >
           <ChevronRight size={16} />
         </button>
-      </div>
+      </motion.div>
 
       {/* Summary row */}
       {budgets.length > 0 && (
-        <div className="grid grid-cols-3 gap-4">
+        <motion.div variants={fadeUp} className="grid grid-cols-3 gap-4">
           <div className="glass-card p-4 text-center">
             <p className="text-xs text-slate-500 mb-1">Total Budget</p>
-            <p className="text-xl font-bold text-white">${totalBudget.toLocaleString()}</p>
+            <p className="text-xl font-bold text-white tabular-nums">
+              <CountUp value={totalBudget} format={formatCurrency} />
+            </p>
           </div>
           <div className="glass-card p-4 text-center">
             <p className="text-xs text-slate-500 mb-1">Total Spent</p>
-            <p className={`text-xl font-bold ${totalSpent > totalBudget ? 'text-red-400' : 'text-emerald-400'}`}>
-              ${totalSpent.toLocaleString()}
+            <p className={`text-xl font-bold tabular-nums ${totalSpent > totalBudget ? 'text-red-400' : 'text-emerald-400'}`}>
+              <CountUp value={totalSpent} format={formatCurrency} />
             </p>
           </div>
           <div className="glass-card p-4 text-center">
@@ -122,12 +140,18 @@ export default function BudgetsPage() {
               {overBudgetCount} categor{overBudgetCount !== 1 ? 'ies' : 'y'}
             </p>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Add budget form */}
+      <AnimatePresence>
       {showForm && (
-        <div className="glass-card p-6 border-primary-500/30 animate-slide-up">
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="glass-card p-6 border-primary-500/30 overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-white">New Budget</h3>
             <button onClick={() => { setShowForm(false); setError('') }} className="text-slate-500 hover:text-white">
@@ -172,28 +196,38 @@ export default function BudgetsPage() {
           {availableCategories.length === 0 && (
             <p className="text-xs text-slate-500 mt-3">All categories already have budgets for this month.</p>
           )}
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* Budget cards grid */}
       {loading ? (
         <LoadingSpinner text="Loading budgets..." />
       ) : budgets.length === 0 ? (
-        <div className="glass-card p-16 text-center">
-          <p className="text-4xl mb-4">🎯</p>
-          <p className="text-white font-semibold mb-2">No budgets set for {formatMonth(month)}</p>
-          <p className="text-slate-500 text-sm mb-6">Create budgets to track your spending by category</p>
-          <button onClick={() => setShowForm(true)} className="btn-primary mx-auto">
-            <Plus size={16} /> Add your first budget
-          </button>
+        <div className="glass-card">
+          <EmptyState
+            icon={Target}
+            title={`No budgets set for ${formatMonth(month)}`}
+            description="Create budgets to track your spending by category and stay on target."
+            action={
+              <button onClick={() => setShowForm(true)} className="btn-primary mx-auto">
+                <Plus size={16} /> Add your first budget
+              </button>
+            }
+          />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+        >
           {budgets.map(budget => (
             <BudgetCard key={budget._id} budget={budget} onDelete={handleDelete} />
           ))}
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }

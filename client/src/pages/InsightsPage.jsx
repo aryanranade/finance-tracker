@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { toast } from 'sonner'
 import { Sparkles, RefreshCw, TrendingUp, AlertTriangle, Lightbulb, Star, DollarSign } from 'lucide-react'
 import InsightCard from '../components/InsightCard'
 import HealthScoreGauge from '../components/HealthScoreGauge'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { staggerContainer, fadeUp } from '../lib/motion'
 import api from '../services/api'
 import { formatCurrency } from '../utils/helpers'
 
@@ -19,8 +22,10 @@ export default function InsightsPage() {
       const { data } = await api.post('/api/ai/insights')
       setInsights(data)
       setLastUpdated(new Date())
+      toast.success('Insights generated', { icon: '✨' })
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to generate insights.')
+      toast.error('Failed to generate insights')
     } finally {
       setLoading(false)
     }
@@ -29,9 +34,14 @@ export default function InsightsPage() {
   const { insights: insightList = [], warnings = [], predictions = {}, recommendations = [], health_score, ai_powered } = insights || {}
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <motion.div
+      className="space-y-6 max-w-7xl mx-auto"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Sparkles size={20} className="text-primary-400" />
@@ -52,7 +62,7 @@ export default function InsightsPage() {
           }
           {loading ? 'Analyzing...' : insights ? 'Refresh Insights' : 'Generate Insights'}
         </button>
-      </div>
+      </motion.div>
 
       {/* AI status badge */}
       {insights && (
@@ -80,10 +90,15 @@ export default function InsightsPage() {
 
       {/* Empty state */}
       {!insights && !loading && (
-        <div className="glass-card p-16 text-center">
-          <div className="w-20 h-20 rounded-2xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center mx-auto mb-6">
+        <motion.div variants={fadeUp} className="glass-card p-16 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-primary-500/10 blur-3xl pointer-events-none" />
+          <motion.div
+            className="w-20 h-20 rounded-2xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center mx-auto mb-6"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          >
             <Sparkles size={36} className="text-primary-400" />
-          </div>
+          </motion.div>
           <h2 className="text-xl font-bold text-white mb-3">Your AI Financial Advisor</h2>
           <p className="text-slate-400 max-w-md mx-auto mb-8 leading-relaxed">
             Click <strong className="text-white">Generate Insights</strong> to analyze your transactions,
@@ -93,7 +108,7 @@ export default function InsightsPage() {
             <Sparkles size={18} />
             Generate My Insights
           </button>
-        </div>
+        </motion.div>
       )}
 
       {loading && (
@@ -105,7 +120,11 @@ export default function InsightsPage() {
 
       {/* Insights dashboard */}
       {insights && !loading && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Insights */}
@@ -210,8 +229,8 @@ export default function InsightsPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }

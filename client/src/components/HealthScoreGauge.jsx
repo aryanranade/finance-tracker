@@ -1,3 +1,4 @@
+import CountUp from './ui/CountUp'
 import { getHealthScoreColor, getHealthScoreLabel } from '../utils/helpers'
 
 export default function HealthScoreGauge({ score = 0, loading }) {
@@ -57,7 +58,9 @@ export default function HealthScoreGauge({ score = 0, loading }) {
 
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-4xl font-black text-white leading-none">{clampedScore}</span>
+          <span className="text-4xl font-black text-white leading-none tabular-nums">
+            <CountUp value={clampedScore} duration={1.3} />
+          </span>
           <span className="text-xs text-slate-500 mt-1">out of 100</span>
         </div>
       </div>

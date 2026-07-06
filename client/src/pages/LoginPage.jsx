@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
+import { staggerContainer, fadeUp } from '../lib/motion'
 import { TrendingUp, Eye, EyeOff, Loader } from 'lucide-react'
 
 export default function LoginPage() {
@@ -25,12 +27,27 @@ export default function LoginPage() {
     }
   }
 
-  const fillDemo = () => setForm({ email: 'demo@financetracker.app', password: 'demo1234' })
+  const [demoLoading, setDemoLoading] = useState(false)
+
+  const tryDemo = async () => {
+    setError('')
+    setDemoLoading(true)
+    setForm({ email: 'demo@financetracker.app', password: 'demo1234' })
+    try {
+      await login('demo@financetracker.app', 'demo1234')
+      navigate('/dashboard')
+    } catch {
+      setError('Demo account unavailable. Try registering instead — it takes 10 seconds.')
+    } finally {
+      setDemoLoading(false)
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-surface-900 flex">
+    <div className="min-h-screen flex">
+      <div className="aurora-bg" />
       {/* Left visual panel */}
-      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-surface-800 via-primary-900/30 to-surface-900 p-12 border-r border-border">
+      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-surface-800/80 via-primary-900/30 to-surface-900/80 p-12 border-r border-border">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
             <TrendingUp size={20} className="text-white" />
@@ -38,36 +55,40 @@ export default function LoginPage() {
           <span className="text-xl font-bold text-white">FinanceAI</span>
         </div>
 
-        <div>
-          <h2 className="text-4xl font-black text-white mb-4 leading-tight">
+        <motion.div variants={staggerContainer} initial="initial" animate="animate">
+          <motion.h2 variants={fadeUp} className="text-4xl font-black text-white mb-4 leading-tight">
             Take control of your<br />
             <span className="gradient-text">financial future</span>
-          </h2>
-          <p className="text-slate-400 text-lg mb-8">
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-slate-400 text-lg mb-8">
             AI-powered insights, smart budgeting, and real-time spending analysis — all in one place.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
+          </motion.p>
+          <motion.div variants={staggerContainer} className="grid grid-cols-2 gap-4">
             {[
               { icon: '🤖', title: 'AI Insights', desc: 'Groq-powered analysis' },
               { icon: '📊', title: 'Smart Charts', desc: 'Visual spending overview' },
               { icon: '🎯', title: 'Budget Goals', desc: 'Track vs targets' },
               { icon: '💯', title: 'Health Score', desc: 'Financial wellness score' },
             ].map(({ icon, title, desc }) => (
-              <div key={title} className="glass-card p-4">
+              <motion.div key={title} variants={fadeUp} whileHover={{ y: -3 }} className="glass-card p-4">
                 <span className="text-2xl">{icon}</span>
                 <p className="text-white font-semibold text-sm mt-2">{title}</p>
                 <p className="text-slate-500 text-xs">{desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <p className="text-slate-600 text-sm">© 2024 FinanceAI. All rights reserved.</p>
+        <p className="text-slate-600 text-sm">© {new Date().getFullYear()} FinanceAI. All rights reserved.</p>
       </div>
 
       {/* Right login form */}
       <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
-        <div className="w-full max-w-md animate-slide-up">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
@@ -128,13 +149,18 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Demo account */}
+          {/* Demo account — one-click login */}
           <div className="mt-4 p-4 rounded-xl bg-primary-500/10 border border-primary-500/20">
-            <p className="text-xs text-primary-300 mb-2 font-semibold">🎯 Try with demo account</p>
-            <button onClick={fillDemo} className="text-sm text-primary-400 hover:text-primary-300 underline underline-offset-2 transition-colors">
-              Fill demo credentials
+            <p className="text-xs text-primary-300 mb-3 font-semibold">🎯 Just exploring?</p>
+            <button
+              onClick={tryDemo}
+              disabled={demoLoading || loading}
+              className="btn-secondary w-full text-sm border-primary-500/40"
+            >
+              {demoLoading ? <Loader size={15} className="animate-spin" /> : '✨'}
+              {demoLoading ? 'Loading demo...' : 'Try the live demo — one click, no signup'}
             </button>
-            <p className="text-xs text-slate-600 mt-1">demo@financetracker.app / demo1234</p>
+            <p className="text-xs text-slate-600 mt-2 text-center">demo@financetracker.app / demo1234</p>
           </div>
 
           <p className="text-center text-slate-500 text-sm mt-6">
@@ -143,7 +169,7 @@ export default function LoginPage() {
               Sign up free
             </Link>
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

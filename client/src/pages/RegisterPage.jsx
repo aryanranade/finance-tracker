@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
+import { staggerContainer, fadeUp } from '../lib/motion'
 import { TrendingUp, Eye, EyeOff, Loader, Check } from 'lucide-react'
 
 export default function RegisterPage() {
@@ -49,10 +51,16 @@ export default function RegisterPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-surface-900 flex items-center justify-center p-6">
-      <div className="w-full max-w-4xl grid lg:grid-cols-2 gap-8 items-center animate-fade-in">
+    <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="aurora-bg" />
+      <div className="w-full max-w-4xl grid lg:grid-cols-2 gap-8 items-center">
         {/* Left info panel */}
-        <div className="hidden lg:block">
+        <motion.div
+          className="hidden lg:block"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
               <TrendingUp size={20} className="text-white" />
@@ -60,28 +68,32 @@ export default function RegisterPage() {
             <span className="text-xl font-bold text-white">FinanceAI</span>
           </div>
 
-          <h2 className="text-4xl font-black text-white mb-3 leading-tight">
+          <motion.h2 variants={fadeUp} className="text-4xl font-black text-white mb-3 leading-tight">
             Your AI-powered<br />
             <span className="gradient-text">money manager</span>
-          </h2>
-          <p className="text-slate-400 mb-8">
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-slate-400 mb-8">
             Join thousands of users who have transformed their financial lives with intelligent tracking.
-          </p>
+          </motion.p>
 
           <ul className="space-y-3">
             {features.map((f) => (
-              <li key={f} className="flex items-center gap-3 text-slate-300">
+              <motion.li key={f} variants={fadeUp} className="flex items-center gap-3 text-slate-300">
                 <span className="w-5 h-5 rounded-full bg-primary-600/30 flex items-center justify-center flex-shrink-0">
                   <Check size={11} className="text-primary-400" />
                 </span>
                 {f}
-              </li>
+              </motion.li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
         {/* Right register form */}
-        <div className="glass-card p-8 animate-slide-up">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="glass-card p-8">
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-6 lg:hidden">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
@@ -175,7 +187,7 @@ export default function RegisterPage() {
               Sign in
             </Link>
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

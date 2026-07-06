@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import {
   LayoutDashboard, ArrowLeftRight, PiggyBank,
@@ -28,9 +29,13 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="px-6 py-6 border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow">
+          <motion.div
+            className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-glow"
+            whileHover={{ scale: 1.08, rotate: -6 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          >
             <TrendingUp size={18} className="text-white" />
-          </div>
+          </motion.div>
           <div>
             <h1 className="text-base font-bold text-white leading-none">FinanceAI</h1>
             <p className="text-xs text-slate-500 mt-0.5">Smart Tracker</p>
@@ -50,9 +55,20 @@ export default function Sidebar() {
               `nav-item ${isActive ? 'active' : ''}`
             }
           >
-            <Icon size={18} />
-            <span className="flex-1">{label}</span>
-            <ChevronRight size={14} className="opacity-30" />
+            {({ isActive }) => (
+              <>
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-active-pill"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full bg-gradient-to-b from-primary-400 to-primary-600"
+                    transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <Icon size={18} />
+                <span className="flex-1">{label}</span>
+                <ChevronRight size={14} className={isActive ? 'opacity-70 text-primary-300' : 'opacity-30'} />
+              </>
+            )}
           </NavLink>
         ))}
       </nav>

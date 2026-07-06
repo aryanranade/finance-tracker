@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { toast } from 'sonner'
 import {
   Wallet, TrendingUp, TrendingDown, Activity,
   ArrowRight, Plus
@@ -9,9 +11,10 @@ import MonthlyBarChart from '../components/MonthlyBarChart'
 import CategoryPieChart from '../components/CategoryPieChart'
 import TransactionTable from '../components/TransactionTable'
 import TransactionModal from '../components/TransactionModal'
+import { staggerContainer, fadeUp } from '../lib/motion'
 import { useAuth } from '../context/AuthContext'
 import api from '../services/api'
-import { formatCurrency, getLast6Months, getCurrentMonth } from '../utils/helpers'
+import { getLast6Months, getCurrentMonth } from '../utils/helpers'
 
 export default function DashboardPage() {
   const { user } = useAuth()
@@ -26,6 +29,7 @@ export default function DashboardPage() {
       setTransactions(data.transactions)
     } catch (err) {
       console.error(err)
+      toast.error('Could not load transactions')
     } finally {
       setLoading(false)
     }
@@ -75,8 +79,13 @@ export default function DashboardPage() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this transaction?')) return
-    await api.delete(`/api/transactions/${id}`)
-    setTransactions(prev => prev.filter(t => t._id !== id))
+    try {
+      await api.delete(`/api/transactions/${id}`)
+      setTransactions(prev => prev.filter(t => t._id !== id))
+      toast.success('Transaction deleted')
+    } catch {
+      toast.error('Failed to delete transaction')
+    }
   }
 
   const openAdd = () => { setEditTx(null); setModalOpen(true) }
@@ -86,12 +95,17 @@ export default function DashboardPage() {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <motion.div
+      className="space-y-6 max-w-7xl mx-auto"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-white">
-            {greeting}, {user?.name?.split(' ')[0]} 👋
+            {greeting}, <span className="gradient-text">{user?.name?.split(' ')[0]}</span> 👋
           </h1>
           <p className="text-slate-400 text-sm mt-0.5">
             Here's your financial overview for {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
@@ -101,10 +115,13 @@ export default function DashboardPage() {
           <Plus size={18} />
           Add Transaction
         </button>
-      </div>
+      </motion.div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <motion.div
+        variants={staggerContainer}
+        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"
+      >
         <StatCard
           title="Net Balance"
           amount={balance}
@@ -137,25 +154,25 @@ export default function DashboardPage() {
           trendLabel={totalIncome > 0 ? `${Math.max(0, Math.round((balance / totalIncome) * 100))}% of income` : 'No income yet'}
           loading={loading}
         />
-      </div>
+      </motion.div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <MonthlyBarChart data={chartData} loading={loading} />
         </div>
         <CategoryPieChart data={pieData} loading={loading} />
-      </div>
+      </motion.div>
 
       {/* Recent Transactions */}
-      <div>
+      <motion.div variants={fadeUp}>
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-base font-bold text-white">Recent Transactions</h2>
             <p className="text-xs text-slate-500 mt-0.5">Last {Math.min(transactions.length, 8)} transactions</p>
           </div>
-          <Link to="/transactions" className="flex items-center gap-1 text-primary-400 text-sm font-medium hover:text-primary-300 transition-colors">
-            View all <ArrowRight size={14} />
+          <Link to="/transactions" className="group flex items-center gap-1 text-primary-400 text-sm font-medium hover:text-primary-300 transition-colors">
+            View all <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
         <TransactionTable
@@ -163,8 +180,13 @@ export default function DashboardPage() {
           onEdit={openEdit}
           onDelete={handleDelete}
           loading={loading}
+          emptyAction={
+            <button onClick={openAdd} className="btn-primary">
+              <Plus size={16} /> Add your first transaction
+            </button>
+          }
         />
-      </div>
+      </motion.div>
 
       <TransactionModal
         isOpen={modalOpen}
@@ -172,6 +194,6 @@ export default function DashboardPage() {
         onSave={handleSave}
         editTx={editTx}
       />
-    </div>
+    </motion.div>
   )
 }

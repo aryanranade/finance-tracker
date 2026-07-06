@@ -1,4 +1,7 @@
+import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown } from 'lucide-react'
+import { fadeUp } from '../lib/motion'
+import CountUp from './ui/CountUp'
 import { formatCurrency } from '../utils/helpers'
 
 export default function StatCard({ title, amount, icon: Icon, trend, trendLabel, color = 'primary', loading }) {
@@ -27,14 +30,22 @@ export default function StatCard({ title, amount, icon: Icon, trend, trendLabel,
   }
 
   return (
-    <div className={`relative overflow-hidden glass-card-hover p-6 bg-gradient-to-br ${colorMap[color]}`}>
+    <motion.div
+      variants={fadeUp}
+      whileHover={{ y: -3 }}
+      className={`relative overflow-hidden glass-card p-6 bg-gradient-to-br transition-shadow duration-300 hover:shadow-card-lg ${colorMap[color]}`}
+    >
       {/* Background glow blob */}
       <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-10 blur-2xl bg-current" />
 
       <div className="flex items-start justify-between mb-4">
-        <div className={`p-2.5 rounded-xl ${iconBg[color]}`}>
+        <motion.div
+          className={`p-2.5 rounded-xl ${iconBg[color]}`}
+          whileHover={{ scale: 1.08, rotate: -4 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+        >
           <Icon size={22} />
-        </div>
+        </motion.div>
         {trend !== undefined && (
           <div className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full
             ${trend >= 0
@@ -48,10 +59,12 @@ export default function StatCard({ title, amount, icon: Icon, trend, trendLabel,
       </div>
 
       <p className="text-sm font-medium text-slate-400 mb-1">{title}</p>
-      <p className="text-2xl font-bold text-white">{formatCurrency(amount || 0)}</p>
+      <p className="text-2xl font-bold text-white tabular-nums">
+        <CountUp value={amount || 0} format={formatCurrency} />
+      </p>
       {trendLabel && (
         <p className="text-xs text-slate-500 mt-1">{trendLabel}</p>
       )}
-    </div>
+    </motion.div>
   )
 }

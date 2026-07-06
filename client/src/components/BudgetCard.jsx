@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion'
 import { Trash2, AlertTriangle, CheckCircle } from 'lucide-react'
+import { fadeUp } from '../lib/motion'
 import { formatCurrency, CATEGORY_COLORS, CATEGORY_ICONS, clampPercent } from '../utils/helpers'
 
 export default function BudgetCard({ budget, onDelete }) {
@@ -15,7 +17,7 @@ export default function BudgetCard({ budget, onDelete }) {
   if (isOver) barColor = '#ef4444'      // red
 
   return (
-    <div className="glass-card-hover p-5">
+    <motion.div variants={fadeUp} className="glass-card-hover p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -47,11 +49,14 @@ export default function BudgetCard({ budget, onDelete }) {
         </div>
       </div>
 
-      {/* Progress bar */}
+      {/* Progress bar — animates in from 0 */}
       <div className="progress-bar mb-3">
-        <div
+        <motion.div
           className="progress-bar-fill"
-          style={{ width: `${pct}%`, backgroundColor: barColor }}
+          style={{ backgroundColor: barColor, boxShadow: `0 0 10px ${barColor}50` }}
+          initial={{ width: 0 }}
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
         />
       </div>
 
@@ -79,6 +84,6 @@ export default function BudgetCard({ budget, onDelete }) {
           ⚡ Approaching limit — only {formatCurrency(remaining)} left
         </p>
       )}
-    </div>
+    </motion.div>
   )
 }
